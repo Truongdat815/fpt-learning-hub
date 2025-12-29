@@ -126,5 +126,102 @@ function resetTimer() { stopTimer(); timeLeft = 25 * 60; updateTimer(); }
 <div id="content-PRM392" style="display:none"><div class="subject-header"><h1>PRM392 - Programming for Data Science</h1><h3>Khoa học dữ liệu và lập trình</h3><p>This module introduces students to the principles and practices of programming in a data-centric environment. It covers fundamental concepts, tools, and techniques required for manipulating data using Python and other languages.</p></div><div class="chapters-list"><div class="chapter-item"><h4>Chương 1: Introduction to Data Science</h4><p>This chapter introduces the concept of data science, including its applications and how it differs from traditional software development.</p></div><div class="chapter-item"><h4>Chương 2: Programming Concepts</h4><p>This chapter discusses fundamental programming concepts such as variables, control structures, functions, and data types in Python.</p></div><div class="chapter-item"><h4>Chương 3: Data Handling with Pandas</h4><p>In this chapter, we explore the powerful data handling library 'pandas' in Python. We cover how to read and write data, perform basic operations on data frames, and handle missing values.</p></div><div class="chapter-item"><h4>Chương 4: Data Visualization with Matplotlib</h4><p>Matplotlib is a powerful tool for creating static, animated, and interactive visualizations in Python. This chapter covers its basics including line plots, scatter plots, bar charts, histograms, etc.</p></div><div class="chapter-item"><h4>Chương 5: Machine Learning Basics</h4><p>We cover basic machine learning concepts like supervised/unsupervised learning, training and testing datasets, overfitting and underfitting. We also discuss the importance of feature scaling in machine learning algorithms.</p></div></div></div>
 
 <div id="content-ML101" style="display:none"><div class="subject-header"><h1>ML101 - Introduction to Machine Learning</h1><h3>Nhập môn Học Máy</h3><p>Mô tả về khoa học máy học cung cấp cách thức dùng chính là một phương pháp, trong đó con người hoặc môi trường học tập sẽ tham gia vào việc huấn luyện, dự đoán và phân loại các kiểu dữ liệu. Cách nhìn tổng quát của việc học máy là rằng chúng ta có thể bắt đầu với dữ liệu cơ sở, sau đó tìm kiếm mô hình hoặc phương pháp để áp dụng nó trong môi trường của chúng ta. </p></div><div class="chapters-list"><div class="chapter-item"><h4>Chương 1: Nhập vào khoa học Máy</h4><p>Trong phần này, bạn sẽ được tìm hiểu về môn học khoa học máy. Bạn sẽ cần phải nắm được cách máy tính có thể giúp ích trong việc làm chủ khoa học.</p></div><div class="chapter-item"><h4>Chương 2: Phân loại và dự đoán</h4><p>Trong phần này, bạn sẽ tìm hiểu về các kiểu phân loại và dự đoán. Bạn sẽ học được cách áp dụng nó trong thực tế.</p></div></div></div>
+
+
+<!-- AI TUTOR WIDGET -->
+<div id="ai-tutor-bubble" onclick="toggleChat()">
+    🤖 Hỏi bài AI
+</div>
+
+<div id="ai-chat-window">
+    <div class="chat-header">
+        <span>🎓 FPT AI Tutor</span>
+        <button onclick="toggleChat()">×</button>
+    </div>
+    <div class="chat-body" id="chat-messages">
+        <div class="message bot">
+            Xin chào! Mình là trợ lý AI ảo. Bạn cần hỏi gì về các môn học FPT (MAE101, PRO192...)?
+        </div>
+    </div>
+    <div class="chat-input">
+        <input type="text" id="user-input" placeholder="Nhập câu hỏi..." onkeypress="handleEnter(event)">
+        <button onclick="sendMessage()">Gửi</button>
+    </div>
+</div>
+
+<style>
+/* Chat Widget Styles */
+#ai-tutor-bubble {
+    position: fixed; bottom: 30px; right: 30px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white; padding: 15px 25px; border-radius: 50px;
+    cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    font-weight: bold; animation: float 3s ease-in-out infinite; z-index: 1000;
+}
+#ai-chat-window {
+    display: none; position: fixed; bottom: 90px; right: 30px;
+    width: 350px; height: 450px; background: white;
+    border-radius: 12px; box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+    flex-direction: column; overflow: hidden; z-index: 1000;
+}
+.chat-header {
+    background: #667eea; color: white; padding: 15px;
+    display: flex; justify-content: space-between; font-weight: bold;
+}
+.chat-body { flex: 1; padding: 15px; overflow-y: auto; background: #f8f9fa; }
+.message { margin-bottom: 10px; max-width: 80%; padding: 10px; border-radius: 10px; font-size: 0.9em; }
+.message.bot { background: #e2e8f0; align-self: flex-start; color: #333; }
+.message.user { background: #667eea; color: white; margin-left: auto; }
+.chat-input { display: flex; border-top: 1px solid #eee; }
+.chat-input input { flex: 1; padding: 15px; border: none; outline: none; }
+.chat-input button { padding: 0 20px; border: none; background: transparent; color: #667eea; font-weight: bold; cursor: pointer; }
+@keyframes float { 0% {transform: translateY(0px);} 50% {transform: translateY(-10px);} 100% {transform: translateY(0px);} }
+</style>
+
+<script>
+function toggleChat() {
+    const w = document.getElementById('ai-chat-window');
+    w.style.display = w.style.display === 'flex' ? 'none' : 'flex';
+}
+
+function handleEnter(e) { if(e.key === 'Enter') sendMessage(); }
+
+function sendMessage() {
+    const input = document.getElementById('user-input');
+    const text = input.value.trim();
+    if(!text) return;
+
+    addMessage(text, 'user');
+    input.value = '';
+
+    // Simulate AI Response (Simple Rule-based)
+    document.getElementById('chat-messages').innerHTML += '<div class="message bot">Đang suy nghĩ...</div>';
+    
+    setTimeout(() => {
+        // Remove loading
+        document.querySelector('.message.bot:last-child').remove();
+        
+        let response = "Mình chưa hiểu câu hỏi này. Bạn thử hỏi về 'PRO192' hoặc 'Lịch thi' xem?";
+        const lower = text.toLowerCase();
+        
+        if(lower.includes('pro192')) response = "PRO192 là môn Lập trình Java cơ bản. Môn này rất quan trọng để qua môn PRN211 sau này.";
+        if(lower.includes('mae101')) response = "MAE101 là Toán giải tích. Bạn cần ôn kỹ đạo hàm và tích phân nhé.";
+        if(lower.includes('chào')) response = "Chào bạn! Chúc bạn một ngày học tập hiệu quả.";
+        if(lower.includes('qua môn')) response = "Để qua môn ở FPT, bạn cần tổng điểm > 5.0 và không trượt điểm thành phần > 20%";
+        
+        addMessage(response, 'bot');
+    }, 1500);
+}
+
+function addMessage(text, sender) {
+    const div = document.createElement('div');
+    div.className = `message ${sender}`;
+    div.innerText = text;
+    document.getElementById('chat-messages').appendChild(div);
+    const body = document.getElementById('chat-messages');
+    body.scrollTop = body.scrollHeight;
+}
+</script>
+
 </body>
 </html>
