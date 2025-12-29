@@ -13,7 +13,74 @@
             <div class="logo">🎓 FPT SE Roadmap</div>
             <nav id="semester-nav">
                 <!-- AI sẽ chèn danh sách kỳ học vào đây -->
-            </nav>
+            <div class="tools-section" style="margin-top:30px; border-top:1px solid #444; padding-top:20px;">
+<div class="card feature-card" id="gpa-tool">
+    <h3>📊 GPA Calculator</h3>
+    <div class="gpa-input-group">
+        <input type="number" id="gpa-score" placeholder="Điểm môn học (0-10)">
+        <input type="number" id="gpa-credit" placeholder="Số tín chỉ (3)">
+        <button onclick="addScore()">Thêm</button>
+    </div>
+    <ul id="score-list"></ul>
+    <div class="gpa-result">GPA Hiện tại: <span id="current-gpa">0.0</span></div>
+</div>
+<script>
+let scores = [];
+function addScore() {
+    let s = parseFloat(document.getElementById('gpa-score').value);
+    let c = parseInt(document.getElementById('gpa-credit').value);
+    if(s>=0 && c>0) {
+        scores.push({s, c});
+        renderScores();
+    }
+}
+function renderScores() {
+    let list = document.getElementById('score-list');
+    list.innerHTML = '';
+    let totalS = 0, totalC = 0;
+    scores.forEach((item, i) => {
+        list.innerHTML += `<li>Môn ${i+1}: ${item.s} (${item.c} tín)</li>`;
+        totalS += item.s * item.c;
+        totalC += item.c;
+    });
+    document.getElementById('current-gpa').innerText = (totalS / totalC).toFixed(2);
+}
+</script>
+
+<div class="card feature-card" id="pomo-tool" style="margin-top:20px;">
+    <h3>🍅 Pomodoro Timer</h3>
+    <div class="timer-display" id="timer">25:00</div>
+    <button onclick="startTimer()">Start</button>
+    <button onclick="stopTimer()">Stop</button>
+    <button onclick="resetTimer()">Reset</button>
+</div>
+<script>
+let timerInterval;
+let timeLeft = 25 * 60;
+function updateTimer() {
+    let m = Math.floor(timeLeft / 60);
+    let s = timeLeft % 60;
+    document.getElementById('timer').innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
+}
+function startTimer() {
+    if(timerInterval) return;
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        updateTimer();
+        if(timeLeft <= 0) {
+            clearInterval(timerInterval);
+            alert("Hết giờ học! Nghỉ ngơi thôi.");
+        }
+    }, 1000);
+}
+function stopTimer() { clearInterval(timerInterval); timerInterval = null; }
+function resetTimer() { stopTimer(); timeLeft = 25 * 60; updateTimer(); }
+</script>
+<style>
+.timer-display { font-size: 2rem; font-weight: bold; text-align: center; margin: 10px 0; color: #e74c3c; }
+</style>
+</div>
+</nav>
         </aside>
         <main class="content">
             <header>
